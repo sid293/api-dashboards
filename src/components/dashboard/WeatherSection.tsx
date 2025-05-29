@@ -128,7 +128,7 @@ export default function WeatherSection() {
     { name: 'Pressure', value: data.main.pressure },
   ] : [];
 
-  const COLORS = ['#3B82F6', '#10B981', '#6366F1', '#F59E0B'];
+  // const COLORS = ['#3B82F6', '#10B981', '#6366F1', '#F59E0B'];
 
   if (isDetectingLocation) {
     return (
