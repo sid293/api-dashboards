@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getWeatherByCity, WeatherData } from '@/services/weather';
 import { debounce } from '@/utils/helpers';
@@ -42,6 +42,21 @@ export default function WeatherSection() {
   const [isDetectingLocation, setIsDetectingLocation] = useState(true);
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
+  // Create a memoized debounced function
+  const debouncedSetSearch = useCallback(
+    debounce((value: string) => {
+      setDebouncedSearch(value);
+    }, 1000),
+    []
+  );
+
+  // Update debounced search when search changes
+  useEffect(() => {
+    if (search) {
+      debouncedSetSearch(search);
+    }
+  }, [search, debouncedSetSearch]);
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -75,14 +90,10 @@ export default function WeatherSection() {
     }
   }, []);
 
-  const handleSearch = debounce((value: string) => {
-    setDebouncedSearch(value);
-  }, 500);
-
   const { data, isLoading, error } = useQuery<WeatherData>({
-    queryKey: ['weather', search],
-    queryFn: () => getWeatherByCity(search),
-    enabled: search !== '' && !isDetectingLocation, 
+    queryKey: ['weather', debouncedSearch],
+    queryFn: () => getWeatherByCity(debouncedSearch),
+    enabled: debouncedSearch !== '' && !isDetectingLocation, 
   });
 
   useEffect(() => {
@@ -90,14 +101,6 @@ export default function WeatherSection() {
       console.log("Weather data: ",data.main);
     }
   }, [data]);
-
-  useEffect(()=>{
-    handleSearch(search);
-  },[search])
-
-  // useEffect(()=>{
-  //   console.log("Debounced search: ",debouncedSearch);
-  // },[debouncedSearch])
 
   const chartData = data ? [
     { name: 'Temp', value: data.main.temp },

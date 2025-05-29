@@ -7,7 +7,7 @@ interface HeaderProps {
 
 export default function Header({ onHamburgerClick }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
 
   return (
     <header className="fixed top-0 right-0 left-0 h-16 bg-white dark:bg-gray-800 shadow-sm z-40 flex items-center">

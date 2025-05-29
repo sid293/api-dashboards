@@ -18,10 +18,19 @@ export const NEWS_CATEGORIES = [
   'Entertainment',
 ] as const; 
 
-export const debounce = (func: (...args: any[]) => void, delay: number) => {
-  let timeout: NodeJS.Timeout;
-  return (...args: any[]) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), delay);
+export const debounce = <T extends (...args: string[]) => void>(
+  func: T,
+  delay: number
+): ((...args: Parameters<T>) => void) => {
+  let timeoutId: NodeJS.Timeout | undefined;
+
+  return (...args: Parameters<T>) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
   };
 };
