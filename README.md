@@ -67,7 +67,7 @@ src/
 
 ## Screenshots
 
-![News Section](/news-section.png)
+![News Section](/public/news-section.png)
 
 ## Environment Variables
 
