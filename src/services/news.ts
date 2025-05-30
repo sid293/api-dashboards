@@ -24,7 +24,9 @@ export const getTopHeadlines = async (category?: string): Promise<NewsResponse> 
     params: {
       country: 'us',
       category,
-      apiKey: NEWS_API_KEY,
+    },
+    headers: {
+      'X-Api-Key': NEWS_API_KEY,
     },
   });
   return response.data;

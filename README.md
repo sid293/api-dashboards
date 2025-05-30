@@ -65,6 +65,10 @@ src/
     └── index.ts         # Redux store configuration
 ```
 
+## Screenshots
+
+![News Section](/news-section.png)
+
 ## Environment Variables
 
 - `NEXT_PUBLIC_WEATHER_API_KEY`: Your OpenWeatherMap API key
